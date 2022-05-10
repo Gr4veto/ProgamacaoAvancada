@@ -1,0 +1,91 @@
+#include<stdio.h>
+#include<stdlib.h>
+//Marcadores para funcao:
+int comparador(const void *a, const void *b);
+void qazar(float *array, int n, int (*comparador)(float *a, float *b)); //reprodução da função qsort
+
+//Funcao principal:
+int main(void){
+	
+	float *x, save, f; //ponteiro para float e variável de memória rápida
+	int i, n, a, b; //Variaveis auxiliares de contagem
+	
+	printf("Digite quantos valores devem ser gerados: ");
+	scanf("%d", &n);// Guarda quantos valores devem ser gerados
+	
+	x = (float*) malloc(n*sizeof(float)); // aloca memoria dinamicamente
+	
+	//verificar se deu bom:
+	if(x == NULL){
+		printf("Memória insuficiente :(");
+		system("pause");
+		exit(0);
+	}
+	
+	srand(time(0)); // mudar semente para gerar valores aleatórios
+	/*time retorna um número inteiro referente a hora da máquina,
+	 vai ser usado para cada execução gerar uma semente diferente;*/
+	 
+	for(i = 0; i<n; i++){ //Esse for gera valores 'aleatórios' tipo float e atribui ao array
+		 a  =  rand()%100;//guarda em a um valor inteiro
+		 b  =  rand()%100;//guarda em b um valor inteiro
+		 f  =  ((float)a/b);//guarda em f um valor tipo float a partir da razão a/b
+		 
+		x[i] =  f;//preenche o array
+	}
+	
+	printf("Desordenado: ");//imprime o array antes do qsort
+	for(i = 0; i<n; i++){
+		printf("%.2f ", x[i]);
+	}
+	
+	//ordenando array com a funcao qsort:
+	qazar(x, n, comparador);
+	
+		printf("\n");
+	
+	printf("Ordenado...: "); //Exibe os valores ordenados em ordem crescente
+	for(i = 0; i<n; i++){
+		printf("%.2f ", x[i]);
+	}
+	
+	
+	//memória, seja livre, a escravidão acabou
+	free(x);
+	
+	
+}//fim da funcao man
+
+
+//funcao comparadora para qsort:
+int comparador(const void *a, const void *b){
+	return (*(int*)b - *(int*)a);
+}
+/*Nessa funcao, subtraimos a de b, e o resultado
+é retornado como inteiro:
+a < b: resultado negativo
+a > b: resultado positivo
+a = b: resultado é zero
+
+a e b são valores das posições do array,
+a função recebe como argumento, dois ponteiros
+void, por isso é feito o cast no return para
+o tipo inteiro, já que o qsort trabalha com return desse tipo.
+*/
+
+//funcao para ordenar comparador assim como na qsort:
+void qazar(float *array, int n, int(*comparador)(float *a, float *b)){
+	int i, j;
+	float save = 0;
+	
+	for(i = 0; i < n; i++){
+		for(j = 0; j < n; j++){
+			if(comparador(array+i,array+j)>0){
+				save = array[j];
+				array[j] = array[i];
+				array[i] = save;
+			}
+		}
+	}
+	
+}

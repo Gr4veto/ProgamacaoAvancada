@@ -1,5 +1,5 @@
 /*
-Questão 17
+Questão 18
 Sistema operacional: Windowns 10 Home x64
 IDE: DevC++
 Linguagem C

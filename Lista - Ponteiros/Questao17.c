@@ -8,6 +8,7 @@ Resposta:
 */
 
 #include<stdio.h>
+#include<stdlib.h>
 #include<locale.h>
 
 //marcadores das funções:
